@@ -1,4 +1,5 @@
-# Flow Log Parser
+# Flow Log Parser Problem Statement
+Write a program that can parse a file containing flow log data and maps each row to a tag based on a lookup table. The lookup table is defined as a csv file, and it has 3 columns, dstport,protocol,tag. The dstport and protocol combination decide what tag can be applied.   
 
 ### Run
 1. The FlowLogParser.py contains the program to parse a file containing flow log data and map each row to a tag based on a lookup table.
@@ -26,6 +27,7 @@ python3 -m FlowLogParser
 12. In the output, in Tag Counts, the tags are ordered in the order they are first seen in the Port/Protocol Combination, except for the "Untagged" tag, which always appears last
 13. It is expected that input flow logs are always version 2, and the values align with the column list - version,account-id,interface-id,srcaddr,dstaddr,srcport,dstport,protocol,packets,bytes,start,end,action,log-status
 14. If number in the flow_logs protocol column doesn't have a corresponding protocol code mentioned in the number_ip_mapping.txt key-value pairs, protocol code is considered an empty string, and will show up as such in the output (in Port/Protocol Combination Counts) - this case has been tested in test_case_2
+15. For the matches to be case insensitive, all tags and protocols in the output are expected to be lower case.
 
 #### output.txt Format:
 ```
