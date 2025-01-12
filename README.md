@@ -1,5 +1,6 @@
-# Flow Log Parser Problem Statement
-Write a program that can parse a file containing flow log data and maps each row to a tag based on a lookup table. The lookup table is defined as a csv file, and it has 3 columns, dstport,protocol,tag. The dstport and protocol combination decide what tag can be applied.   
+# Flow Log Parser 
+### Description
+Flow Log Parser is a program that can parse a file containing flow log data and maps each row to a tag based on a lookup table. The lookup table is defined as a csv file, and it has 3 columns, dstport,protocol,tag. The dstport and protocol combination decide what tag can be applied.   
 
 ### Run
 1. The FlowLogParser.py contains the program to parse a file containing flow log data and map each row to a tag based on a lookup table.
