@@ -12,11 +12,26 @@ cd FlowLogParser
 python3 -m FlowLogParser
 ```
 
+### Folder Structure
+```
+FlowLogParser/
+├── data/
+│   ├── flow_logs.txt
+│   ├── lookup_table.csv
+│   ├── number_ip_map.txt
+├── tests/
+│   ├── flow_logs_test_<number>.txt
+│   ├── lookup_table_test_<number>.csv
+│   ├── expected_output_<number>.txt
+│   ├── test.py
+├── FlowLogParser.py
+```
 ### Assumptions:
+#### Input Requirements
 1. User will upload the flow logs in a text file with the name "flow_logs.txt" under the data/ folder
 2. User will upload the lookup table as a csv file with the name "lookup_table.csv" under the data/ folder
 3. Every flow log is in a new line in the flow_logs.txt file. There are no empty lines in between
-4. One flow log has multiple space separated values. 
+4. One flow log has multiple space separated values.
 5. The column names corresponding to the flow log space separated values are inferred from the https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html for version 2 logs. The column names are - version,account-id,interface-id,srcaddr,dstaddr,srcport,dstport,protocol,packets,bytes,start,end,action,log-status
 6. File "number_ip_map.txt" under the data/ folder was created to map the protocol numbers to the internet protocol codes according to https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 7. The first line of the lookup_table input has comma sparated column names
