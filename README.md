@@ -37,13 +37,35 @@ FlowLogParser/
 6. File "number_ip_map.txt" under the data/ folder was created to map the protocol numbers to the internet protocol codes according to https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
 7. The first line of the lookup_table input has comma sparated column names
 8. All the other lines in the lookup_table are comma separated values for the respective columns (dstport, protocol and tag)
-9. The given flow_log and lookup_table have been used in the code, but the given output is only considered as a reference and not considered as the actual output corresponding to the given flow logs and lookup table
-10. The output.txt file will be generated under the data/ folder when FlowLogParser.py is run. The first line will contain the title "Tag Counts:" followed by 1 line of column names (Tag, Count), and then several lines of tag, column corresponding to the given input flow_logs and lookup table. The there will be an empty line, followed by the title "Port/Protocol Combination Counts:", the column names (Port,Protocol,Count) followed by several lines mentioning the count of a particular (port,protocol) combination in the prvided flow logs
-11. In the output, Port/Protocol Combination Counts show up in the order they are first seen in the flow logs
-12. In the output, in Tag Counts, the tags are ordered in the order they are first seen in the Port/Protocol Combination, except for the "Untagged" tag, which always appears last
-13. It is expected that input flow logs are always version 2, and the values align with the column list - version,account-id,interface-id,srcaddr,dstaddr,srcport,dstport,protocol,packets,bytes,start,end,action,log-status
-14. If number in the flow_logs protocol column doesn't have a corresponding protocol code mentioned in the number_ip_mapping.txt key-value pairs, protocol code is considered an empty string, and will show up as such in the output (in Port/Protocol Combination Counts) - this case has been tested in test_case_2
-15. For the matches to be case insensitive, all tags and protocols in the generated output are lower case. The expected output is assumed to have lower case. The expected output added here in tests has tags with capital letters, but while matching the expected vs actual, tests have been written such that case does not matter
+
+
+#### Output Details
+1. File Name: output.txt
+2. Location: Generated under the data/ folder after running FlowLogParser.py.
+3. Format:
+    - Section 1: Tag Counts
+    ```
+    Tag Counts:  
+    Tag,Count  
+    tag1,count  
+    tag2,count  
+    ... 
+    Untagged,count  
+    ```
+    - Tags are ordered based on their first occurrence in the flow logs' port/protocol combinations.
+    - The "Untagged" tag always appears last.
+    - Section 2: Port/Protocol Combination Counts
+    ```
+    Port/Protocol Combination Counts:  
+    Port,Protocol,Count  
+    port1,protocol1,count  
+    port1,protocol2,count  
+    ...  
+    ```
+    - Port/protocol combinations are listed in the order they first appear in the flow logs.
+
+1. The given flow_log and lookup_table have been used in the code, but the given output is only considered as a reference and not considered as the actual output corresponding to the given flow logs and lookup table
+
 
 #### output.txt Format:
 ```
@@ -64,6 +86,14 @@ port2,protocol1,count
 .
 .
 ```
+
+#### Additional Assumptions
+1. Input flow logs are always in Version 2 format, with values aligning with the specified columns.
+2. If a protocol number in the flow logs does not have a corresponding entry in number_ip_map.txt, its protocol code is considered an empty string and will appear as such in the output under "Port/Protocol Combination Counts." (This scenario is tested in test_case_2.)
+3. Case Insensitivity:
+    - All tags and protocols in the output are converted to lowercase for consistency.
+    - During test assertions, comparisons are case-insensitive, even if the expected output includes capitalized tags.
+
 
 ### Testing
 1. I have developed 2 test cases under tests/ with lookup_table_test_<number>.csv, flow_logs_test_<number>.txt and expected_output_<number>.txt. The test_actual_output_<number>.txt will be generated on running test.py, and it will be compared against the expected output.
