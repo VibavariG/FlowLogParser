@@ -16,9 +16,8 @@ def load_ip_numbers_to_hashmap(file_path):
             if len(parts) == 2:
                 number_id = parts[0].strip()
                 protocol_code = parts[1].strip()
-                if protocol_code:  # Add only if the second column is non-empty
+                if protocol_code:  # Add to map only if protocol code is non-empty
                     number_ip_map[number_id] = protocol_code
-    print(f'Number Ip Mapping: {number_ip_map}')
     return number_ip_map
 
 # Function to load the lookup table
@@ -32,8 +31,6 @@ def load_lookup_table(file_path):
                 protocol = parts[1].strip().lower()
                 tag = parts[2].strip()
                 lookup_table[(dstport, protocol)] = tag
-
-    print(f'lookup table: {lookup_table}')
     return lookup_table
 
 # Function to parse the flow log file
@@ -48,11 +45,9 @@ def parse_flow_logs(file_path):
                 dstport = fields[6]
                 protocol = fields[7]
                 logs.append((dstport, protocol))
-
-    print(f'Logs: {logs}')
     return logs
 
-# Function to map logs to tags and calculate statistics
+# Function to map logs to tags and calculate count
 def map_logs_to_tags(logs, lookup_table, number_ip_mapping):
     tag_counter = Counter()
     port_protocol_counter = Counter()
@@ -60,7 +55,6 @@ def map_logs_to_tags(logs, lookup_table, number_ip_mapping):
 
     for dstport, protocol_num in logs:
         protocol = number_ip_mapping.get(protocol_num, "").lower()
-        print(f'Protocol: {protocol}')
         key = (dstport, protocol)
         if key in lookup_table:
             tag = lookup_table[key]
@@ -68,7 +62,6 @@ def map_logs_to_tags(logs, lookup_table, number_ip_mapping):
         else:
             untagged_count += 1
         port_protocol_counter[key] += 1
-
     return tag_counter, port_protocol_counter, untagged_count
 
 # Function to write output to file
@@ -98,7 +91,6 @@ def main():
     lookup_table = load_lookup_table(LOOKUP_TABLE_FILE)
     logs = parse_flow_logs(FLOW_LOG_FILE)
     number_ip_mapping = load_ip_numbers_to_hashmap(NUMBER_IP_MAP)
-    print(f'number to IP: {number_ip_mapping}')
     tag_counter, port_protocol_counter, untagged_count = map_logs_to_tags(logs, lookup_table, number_ip_mapping)
     write_output(tag_counter, port_protocol_counter, untagged_count, OUTPUT_FILE)
     print(f"Output written to '{OUTPUT_FILE}'")
