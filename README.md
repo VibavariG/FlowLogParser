@@ -27,7 +27,7 @@ python3 -m FlowLogParser
 12. In the output, in Tag Counts, the tags are ordered in the order they are first seen in the Port/Protocol Combination, except for the "Untagged" tag, which always appears last
 13. It is expected that input flow logs are always version 2, and the values align with the column list - version,account-id,interface-id,srcaddr,dstaddr,srcport,dstport,protocol,packets,bytes,start,end,action,log-status
 14. If number in the flow_logs protocol column doesn't have a corresponding protocol code mentioned in the number_ip_mapping.txt key-value pairs, protocol code is considered an empty string, and will show up as such in the output (in Port/Protocol Combination Counts) - this case has been tested in test_case_2
-15. For the matches to be case insensitive, all tags and protocols in the output are expected to be lower case.
+15. For the matches to be case insensitive, all tags and protocols in the generated output are lower case. The expected output is assumed to have lower case. The expected output added here in tests has tags with capital letters, but while matching the expected vs actual, tests have been written such that case does not matter
 
 #### output.txt Format:
 ```

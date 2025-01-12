@@ -4,22 +4,25 @@ from collections import Counter
 # Constants for file names
 FLOW_LOG_FILE = "data/flow_logs.txt"
 LOOKUP_TABLE_FILE = "data/lookup_table.csv"
-NUMBER_IP_MAP = "data/number_ip_map.txt"
+ID_PROTOCOL_MAP = "data/id_protocol_map.txt"
 OUTPUT_FILE = "data/output.txt"
 
-def load_ip_numbers_to_hashmap(file_path):
-    number_ip_map = {}
+# Function to load the id_protocol_map.txt file
+# Returns a hashmap with key=id, value=protocol in lower case
+def load_id_protocols_to_hashmap(file_path):
+    id_protocol_map = {}
     with open(file_path, mode='r') as file:
         for line in file:
             parts = line.strip().split(',')
             if len(parts) == 2:
                 number_id = parts[0].strip()
-                protocol_code = parts[1].strip()
-                if protocol_code:  # Add to map only if protocol code is non-empty
-                    number_ip_map[number_id] = protocol_code
-    return number_ip_map
+                protocol_code = parts[1].strip().lower()
+                if protocol_code:  # Add to map only if protocol is non-empty
+                    id_protocol_map[number_id] = protocol_code
+    return id_protocol_map
 
 # Function to load the lookup table
+# Returns a dictionary with key=(dstport, protocol in lower case), value=tag
 def load_lookup_table(file_path):
     lookup_table = {}
     with open(file_path, mode='r') as file:
@@ -33,6 +36,7 @@ def load_lookup_table(file_path):
     return lookup_table
 
 # Function to parse the flow log file
+# Returns a list of (dstport, protocol_id)
 def parse_flow_logs(file_path):
     logs = []
     with open(file_path, mode='r') as file:
@@ -45,17 +49,17 @@ def parse_flow_logs(file_path):
     return logs
 
 # Function to map logs to tags and calculate count
-def map_logs_to_tags(logs, lookup_table, number_ip_mapping):
+def map_logs_to_tags(logs, lookup_table, id_protocol_map):
     tag_counter = Counter()
     port_protocol_counter = Counter()
     untagged_count = 0
 
-    for dstport, protocol_num in logs:
-        protocol = number_ip_mapping.get(protocol_num, "").lower()
+    for dstport, protocol_id in logs:
+        protocol = id_protocol_map.get(protocol_id, "") #gets the lower cased protocol if it exists in the id_protocol_map hashmap
         key = (dstport, protocol)
         if key in lookup_table:
             tag = lookup_table[key]
-            tag_counter[tag] += 1
+            tag_counter[tag.lower()] += 1
         else:
             untagged_count += 1
         port_protocol_counter[key] += 1
@@ -84,11 +88,11 @@ def main():
     if not os.path.exists(LOOKUP_TABLE_FILE):
         print(f"Error: Lookup table file '{LOOKUP_TABLE_FILE}' not found.")
         return
-
+    #load all values as it is from the given input
     lookup_table = load_lookup_table(LOOKUP_TABLE_FILE)
     logs = parse_flow_logs(FLOW_LOG_FILE)
-    number_ip_mapping = load_ip_numbers_to_hashmap(NUMBER_IP_MAP)
-    tag_counter, port_protocol_counter, untagged_count = map_logs_to_tags(logs, lookup_table, number_ip_mapping)
+    id_protocol_map = load_id_protocols_to_hashmap(ID_PROTOCOL_MAP)
+    tag_counter, port_protocol_counter, untagged_count = map_logs_to_tags(logs, lookup_table, id_protocol_map)
     write_output(tag_counter, port_protocol_counter, untagged_count, OUTPUT_FILE)
     print(f"Output written to '{OUTPUT_FILE}'")
 

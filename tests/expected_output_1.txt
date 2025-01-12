@@ -1,9 +1,9 @@
 Tag Counts:
 Tag,Count
-sv_P2,3
-sv_P5,1
+sv_p2,3
+sv_p5,1
 email,3
-sv_P1,1
+sv_p1,1
 Untagged,6
 
 Port/Protocol Combination Counts:
