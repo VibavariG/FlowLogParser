@@ -28,7 +28,7 @@ python3 -m FlowLogParser
 14. If number in the flow_logs protocol column doesn't have a corresponding protocol code mentioned in the number_ip_mapping.txt key-value pairs, protocol code is considered an empty string, and will show up as such in the output (in Port/Protocol Combination Counts) - this case has been tested in test_case_2
 
 #### output.txt Format:
-
+```
 Tag Counts:
 Tag,Count
 tag1,count
@@ -45,6 +45,7 @@ port2,protocol1,count
 .
 .
 .
+```
 
 ### Testing
 1. I have developed 2 test cases under tests/ with lookup_table_test_<number>.csv, flow_logs_test_<number>.txt and expected_output_<number>.txt. The test_actual_output_<number>.txt will be generated on running test.py, and it will be compared against the expected output.
