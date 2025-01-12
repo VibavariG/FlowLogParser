@@ -1,6 +1,5 @@
-import csv
 import os
-from collections import Counter, defaultdict
+from collections import Counter
 
 # Constants for file names
 FLOW_LOG_FILE = "data/flow_logs.txt"
