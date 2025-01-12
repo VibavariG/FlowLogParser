@@ -36,11 +36,9 @@ def load_lookup_table(file_path):
 # Function to parse the flow log file
 def parse_flow_logs(file_path):
     logs = []
-    print("hi")
     with open(file_path, mode='r') as file:
         for line in file:
             fields = line.split()
-            print(fields)
             if len(fields) >= 12:
                 dstport = fields[6]
                 protocol = fields[7]
