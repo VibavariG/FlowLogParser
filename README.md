@@ -60,48 +60,25 @@ FlowLogParser/
 2. Location: Generated under the data/ folder after running FlowLogParser.py.
 3. Format:
     - Section 1: Tag Counts
-    ```
-    Tag Counts:  
-    Tag,Count  
-    tag1,count  
-    tag2,count  
-    ... 
-    Untagged,count  
-    ```
-    - Tags are ordered based on their first occurrence in the flow logs' port/protocol combinations.
-    - The "Untagged" tag always appears last.
+        ```
+        Tag Counts:  
+        Tag,Count  
+        tag1,count  
+        tag2,count  
+        ... 
+        Untagged,count  
+        ```
+        - Tags are ordered based on their first occurrence in the flow logs' port/protocol combinations.
+        - The "Untagged" tag always appears last.
     - Section 2: Port/Protocol Combination Counts
-    ```
-    Port/Protocol Combination Counts:  
-    Port,Protocol,Count  
-    port1,protocol1,count  
-    port1,protocol2,count  
-    ...  
-    ```
-    - Port/protocol combinations are listed in the order they first appear in the flow logs.
-
-
-
-
-#### output.txt Format:
-```
-Tag Counts:
-Tag,Count
-tag1,count
-tag2,count
-.
-.
-.
-
-Port/Protocol Combination Counts:
-Port,Protocol,Count
-port1,protocol1,count
-port1,protocol2,count
-port2,protocol1,count
-.
-.
-.
-```
+        ```
+        Port/Protocol Combination Counts:  
+        Port,Protocol,Count  
+        port1,protocol1,count  
+        port1,protocol2,count  
+        ...  
+        ```
+        - Port/protocol combinations are listed in the order they first appear in the flow logs.
 
 #### Additional Assumptions
 1. The given flow_log and lookup_table have been used in the code, but the given output is only considered as a reference and not considered as the actual output corresponding to the given flow logs and lookup table
