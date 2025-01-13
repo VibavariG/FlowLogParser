@@ -29,15 +29,31 @@ FlowLogParser/
 ```
 ### Assumptions:
 #### Input Requirements
-1. User will upload the flow logs in a text file with the name "flow_logs.txt" under the data/ folder
-2. User will upload the lookup table as a csv file with the name "lookup_table.csv" under the data/ folder
-3. Every flow log is in a new line in the flow_logs.txt file. There are no empty lines in between
-4. One flow log has multiple space separated values.
-5. The column names corresponding to the flow log space separated values are inferred from the https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html for version 2 logs. The column names are - version,account-id,interface-id,srcaddr,dstaddr,srcport,dstport,protocol,packets,bytes,start,end,action,log-status
-6. File "number_ip_map.txt" under the data/ folder was created to map the protocol numbers to the internet protocol codes according to https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml
-7. The first line of the lookup_table input has comma sparated column names
-8. All the other lines in the lookup_table are comma separated values for the respective columns (dstport, protocol and tag)
-
+1. Flow Logs
+    - File name: flow_logs.txt
+    - Location: Must be placed in the data/ folder.
+    - Format:
+        - Each flow log entry is a new line.
+        - There are no empty lines in the file.
+        - Each flow log consists of space-separated values.
+        - Column Mapping: The space-separated values correspond to the following columns (Version 2 logs): version, account-id, interface-id, srcaddr, dstaddr, srcport, dstport, protocol, packets, bytes, start, end, action, log-status
+        - (Source: https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html).
+2. Lookup Table
+    - File Name: lookup_table.csv
+    - Location: Must be placed in the data/ folder.
+    - Format:
+        - The first line contains comma-separated column names.
+        - Subsequent lines contain comma-separated values corresponding to the columns: dstport, protocol, and tag.
+3. Protocol Mapping
+    - File Name: number_ip_map.txt
+    - Location: Placed in the data/ folder. User doesn't need to provide this as an input. This should be a part of the program.
+    - Format: Each line contains a mapping of protocol numbers to protocol codes, separated by a comma.
+    - Source (https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
+    - Example:
+        ```
+        6,tcp  
+        17,udp  
+        ```
 
 #### Output Details
 1. File Name: output.txt
@@ -64,7 +80,7 @@ FlowLogParser/
     ```
     - Port/protocol combinations are listed in the order they first appear in the flow logs.
 
-1. The given flow_log and lookup_table have been used in the code, but the given output is only considered as a reference and not considered as the actual output corresponding to the given flow logs and lookup table
+
 
 
 #### output.txt Format:
@@ -88,9 +104,10 @@ port2,protocol1,count
 ```
 
 #### Additional Assumptions
-1. Input flow logs are always in Version 2 format, with values aligning with the specified columns.
-2. If a protocol number in the flow logs does not have a corresponding entry in number_ip_map.txt, its protocol code is considered an empty string and will appear as such in the output under "Port/Protocol Combination Counts." (This scenario is tested in test_case_2.)
-3. Case Insensitivity:
+1. The given flow_log and lookup_table have been used in the code, but the given output is only considered as a reference and not considered as the actual output corresponding to the given flow logs and lookup table
+2. Input flow logs are always in Version 2 format, with values aligning with the specified columns.
+3. If a protocol number in the flow logs does not have a corresponding entry in number_ip_map.txt, its protocol code is considered an empty string and will appear as such in the output under "Port/Protocol Combination Counts." (This scenario is tested in test_case_2.)
+4. Case Insensitivity:
     - All tags and protocols in the output are converted to lowercase for consistency.
     - During test assertions, comparisons are case-insensitive, even if the expected output includes capitalized tags.
 
