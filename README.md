@@ -30,7 +30,7 @@ FlowLogParser/
 ### Assumptions:
 #### Input Requirements
 1. Flow Logs
-    - File name: flow_logs.txt
+    - File name: ```flow_logs.txt```
     - Location: Must be placed in the data/ folder.
     - Format:
         - Each flow log entry is a new line.
@@ -39,13 +39,13 @@ FlowLogParser/
         - Column Mapping: The space-separated values correspond to the following columns (Version 2 logs): version, account-id, interface-id, srcaddr, dstaddr, srcport, dstport, protocol, packets, bytes, start, end, action, log-status
         - (Source: https://docs.aws.amazon.com/vpc/latest/userguide/flow-log-records.html).
 2. Lookup Table
-    - File Name: lookup_table.csv
+    - File Name: ```lookup_table.csv```
     - Location: Must be placed in the data/ folder.
     - Format:
         - The first line contains comma-separated column names.
         - Subsequent lines contain comma-separated values corresponding to the columns: dstport, protocol, and tag.
 3. Protocol Mapping
-    - File Name: number_ip_map.txt
+    - File Name: ```number_ip_map.txt```
     - Location: Placed in the data/ folder. User doesn't need to provide this as an input. This should be a part of the program.
     - Format: Each line contains a mapping of protocol numbers to protocol codes, separated by a comma.
     - Source (https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
@@ -56,7 +56,7 @@ FlowLogParser/
         ```
 
 #### Output Details
-1. File Name: output.txt
+1. File Name: ```output.txt```
 2. Location: Generated under the data/ folder after running FlowLogParser.py.
 3. Format:
     - Section 1: Tag Counts
@@ -87,7 +87,6 @@ FlowLogParser/
 4. Case Insensitivity:
     - All tags and protocols in the output are converted to lowercase for consistency.
     - During test assertions, comparisons are case-insensitive, even if the expected output includes capitalized tags.
-
 
 ### Testing
 1. I have developed 2 test cases under tests/ with lookup_table_test_<number>.csv, flow_logs_test_<number>.txt and expected_output_<number>.txt. The test_actual_output_<number>.txt will be generated on running test.py, and it will be compared against the expected output.
